@@ -1,0 +1,184 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Hyttesomething – Bestill</title>
+
+<!-- BOOTSTRAP CDN -->
+
+<!-- Latest compiled and minified CSS -->				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- jQuery library -->									<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->						<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- To ensure proper rendering and touch zooming -->	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Lokal CSS/JS -->
+<link rel="stylesheet" href="WU.css" type="text/css" />
+
+<script src="JS.js"></script>
+<script type="text/javascript">
+  //global variabel
+  var basePrice;
+
+  //Når dokumentet lastet så hentes inn informasjonen om hytten som blir bestillt
+  //Datoen får bestilling får også en minimumsdato som settes denne dagen
+  function hytte() {
+    var a = sessionStorage.getItem('key');
+    document.getElementById("hytte").innerHTML = a;
+    basePrice = sessionStorage.getItem('basePrice');
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    if(dd<10){
+      dd='0'+dd
+    }
+    if(mm<10){
+      mm='0'+mm
+    }
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("from").setAttribute("min", today);
+  }
+
+  //Funskjon som gir et heltall for dager mellom datoene
+  function days_between(date1, date2) {
+    // The number of milliseconds in one day
+    var ONE_DAY = 1000 * 60 * 60 * 24
+    // Convert both dates to milliseconds
+    var date1_ms = date1.getTime()
+    var date2_ms = date2.getTime()
+    // Calculate the difference in milliseconds
+    var difference_ms = Math.abs(date1_ms - date2_ms)
+    // Convert back to days and return
+    return Math.round(difference_ms/ONE_DAY)
+  }
+
+  //oppdaterer prisen, sjekker for ekstrating som vask og medlem for turistforeningen
+  function update() {
+    var date1 = new Date(document.getElementById("from").value);
+    var date2 = new Date(document.getElementById("to").value);
+    var days = days_between(date1, date2);
+    var price = days*basePrice;
+
+    if (document.getElementById("medlem").checked) {
+      price = Math.round(price*0.85);
+    }
+
+    if (document.getElementById("onskerVask").checked) {
+      price += 500;
+    }
+    document.getElementById("pris").innerHTML = price + " kr";
+  }
+
+  //Setter maksimum fra-til dato 2 uker fra valgt dato hos 'fra'
+  function setMax() {
+    var startDate = document.getElementById("from").value;
+    var twoWeeks = new Date(startDate)
+    twoWeeks.setDate(twoWeeks.getDate() + 14);
+    var dd = twoWeeks.getDate();
+    var mm = twoWeeks.getMonth()+1; //January is 0!
+    var yyyy = twoWeeks.getFullYear();
+
+    if(dd<10){
+      dd='0'+dd
+    }
+
+    if(mm<10){
+      mm='0'+mm
+    }
+
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("to").setAttribute("min", startDate);
+    document.getElementById("to").setAttribute("max", today);
+  }
+</script>
+</head>
+
+<body onload="hytte()">
+<div class="container">
+
+        <!-- Header -->
+        <div class="page-header">
+        <div id="logo"><a class="logo" href="http://org.ntnu.no/blackjack/"></a></div>
+
+            <!-- Meny-stripe hentet fra bootstrap tutorials -->
+            <nav class="navbar navbar-default">
+              <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#">Bestill</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav">
+                    <li><a href="../">Hjem</a></li>
+                    <li class="active"><a href="#">Bestill <span class="sr-only">(current)</span></a></li>
+                  </ul>
+
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+
+                      <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                      </ul>
+
+                    </li>
+                  </ul>
+
+                </div><!-- /.navbar-collapse -->
+              </div><!-- /.container-fluid -->
+            </nav>
+
+        </div>
+
+    <h1>Bestill</h1>
+          </br>
+            <form action="http://www.iie.hist.no/fag/webutvikling1/prosjekt/behandle.php" method="post">
+              <fieldset>
+                <legend><span class="number">1</span><div id="hytte"></div></legend>
+                <label for="name">Navn:</label>
+                <input type="text" id="name" name="user_name">
+                <label for="mail">Email:</label>
+                <input type="email" id="mail" name="epost">
+                <label>Medlem av turistforeningen:</label>
+                <input type="radio" id="medlem" value="Ja" name="medlem"><label for="medlem" class="light">Ja</label><br />
+                <input type="radio" id="ikkeMedlem" value="Nei" name="medlem"><label for="ikkeMedlem" class="light">Nei</label>
+              </fieldset>
+
+              <fieldset>
+                <legend><span class="number">2</span>Detaljer</legend>
+                <label for="from">Fra</label>
+                <input id="from"onchange="setMax()" type="date" name="from">
+                <label for="to">Til</label>
+                <input id="to" type="date" name="to">
+                <label>Ønsker du vask:</label>
+                <input type="radio"  id="onskerVask" value="Ja" name="Vask"><label for="onskerVask" class="light">Ja</label><br />
+                <input type="radio" id="onskerIkkeVask" value="Nei" name="Vask"><label for="onskerIkkeVask" class="light">Nei</label>
+              </fieldset>
+
+              <fieldset>
+                 <legend><span class="number">3</span>Pris</legend>
+                 <div id="pris"></div>
+              </fieldset>
+
+              <button type="submit">Kjøp</button>
+              <button type="reset" value="Reset">Reset</button>
+            </form>
+            <button onclick="update()">Update</button>
+
+</body>
+</html>

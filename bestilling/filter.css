@@ -1,0 +1,44 @@
+@charset "UTF-8";
+/* CSS Document for Checkout */
+
+.hytte_bilde{
+    float:left;
+	width:30%;
+    margin-right: 15px;
+}
+
+.hytte{
+    height: auto;
+    overflow: hidden;
+	padding-bottom:10px;
+	margin:10px 0;
+	border-bottom:#CCC solid 1px;
+}
+.hytteBeskrivelse {}
+.buttonRow {float:right;}
+
+#wrapper{width:100%; margin-bottom:10px;}
+#wrapper label{
+	display:inline-block;
+	background:#EEE;
+	padding:5px;
+	font-weight:inherit;
+    position:relative;   
+    cursor:pointer;
+	
+	/* Unngår tekstmarkering */
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently not supported by any browser */
+}
+#wrapper label [type="checkbox"] {display:none;} /* fjerner selve checkboxen */
+#wrapper [type="checkbox"] + span {display:inline-block;padding:1em;}
+#wrapper :checked + span {
+	display:inline-block; 
+    background:#e86764;   
+	color:#FFF;
+}
+#wrapper [type="checkbox"][disabled] + span {} /* Detaljer for deaktiverte filter */

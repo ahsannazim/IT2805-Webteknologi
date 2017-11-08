@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="no" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Hyttesomething – Bestilling</title>
+    <link rel="icon" href="/blackjack/img/favicon.ico" type="image/x-icon" />
+    
+    <!-- BOOTSTRAP CDN -->
+    
+    <!-- Latest compiled and minified CSS -->				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->									<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->						<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- To ensure proper rendering and touch zooming -->	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Lokal CSS/JS -->
+    <link rel="stylesheet" href="/blackjack/default.css" type="text/css" />
+    <link rel="stylesheet" href="bestilling.css">
+    <script src="/blackjack/js.js"></script>
+    
+    <!-- Custom Google fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+</head>
+
+<body onload="hytte()">
+<div class="container top-container">
+        
+    <!-- Header -->
+    <div class="page-header">
+        <div id="logo"><a class="logo" href="/blackjack/"></a></div>
+    	<div id="google_translate_element"></div>
+        
+        <!-- Meny-stripe hentet fra bootstrap tutorials -->
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <span class="navbar-brand">Bestilling</span>
+            </div>
+        
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li><a href="/blackjack/">Hjem</a></li>
+                <li><a href="/blackjack/hytter">Hytter</a></li>
+                <li><a href="/blackjack/bestilling">Bestilling</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+              	<li><a href="/blackjack/lenker">Lenker</a></li>
+                <li><a href="/blackjack/kontakt">Kontakt</a></li>
+                <li><a href="/blackjack/om">Om oss</a></li>
+              </ul>
+              
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+                
+        </div>
+<div class="container">
+<div id="content">  
+<div class="row">
+	<div class="col-sm-5 checkout">
+    	<h1>Bestilling</h1>
+    	<p>
+        	Før bestillingen kan registreres trenger vi noe informasjon fra deg. Vennligst fyll inn dette i skjemaet på denne siden.
+        </p>
+        <form action="http://www.iie.hist.no/fag/webutvikling1/prosjekt/behandle.php" method="post" onsubmit="return validateForm();">
+          <fieldset>
+            <legend><span class="number">1</span><span id="hytte"></span></legend>
+            <label for="name">Navn:</label>
+            <input type="text" id="name" name="navn" placeholder="Skriv ditt navn her..." />
+            <label for="mail">E-post:</label>
+            <input type="email" id="mail" name="epost" placeholder="ola@nordmann.no" />
+          </fieldset>
+    
+          <fieldset>
+            <legend><span class="number">2</span>Detaljer</legend>
+            <label for="from">Jeg ønsker å leie hytta fra...</label>
+            <input id="from"onchange="setMax()" type="date" name="from" required />
+            <div id="toDate">
+              <label for="to">til...</label>
+              <input id="to" type="date" name="to" onchange="update();showPrice();" required />
+            </div>
+            <label>Er du medlem av Turistforeningen?</label>
+            <input type="radio" onclick="update()" id="medlem" value="Ja" name="medlem" /><label for="medlem" class="light">Ja</label><br/>
+            <input type="radio" onclick="update()" id="ikkeMedlem" value="Nei" name="medlem" /><label for="ikkeMedlem" class="light">Nei</label>
+            <label>Ønsker du vask?</label>
+            <input type="radio" onclick="update()"  id="onskerVask" value="Ja" name="Vask" /><label for="onskerVask" class="light">Ja</label><br />
+            <input type="radio" onclick="update()" id="onskerIkkeVask" value="Nei" name="Vask" /><label for="onskerIkkeVask" class="light">Nei</label>
+          </fieldset>
+    
+          <fieldset>
+             <legend><span class="number">3</span>Pris</legend>
+             <div id="pris"></div>
+          </fieldset>
+    
+          <button type="submit" >Kjøp</button>
+          <button type="reset" value="Reset">Reset</button>
+        </form>
+    </div>
+	<div class="col-sm-7">
+    </div>
+</div>
+<!-- Slutt på sidens innhold -->
+</div><!-- Content slutt -->
+<hr />
+    <div id="footer" class="row">
+        <div class="col-sm-3">
+        	<p>
+        	<img src="/blackjack/img/hyttelogo-bw.png" width="125px" />
+            </p>
+        </div>
+        <div class="col-sm-3">
+        	<h5>Hyttesomething AS</h5>
+            <p>
+            	<a href="/blackjack/kontakt">Post-/besøksadresser</a>
+            </p>
+            <p>
+            
+            Org.nr.: 999 444 222
+            </p>
+        </div>
+        <div class="col-sm-3">
+        	<h5>Kontakt</h5>
+            <p>
+            Telefon: <a href="tel:73009900">73 00 99 00</a><br />
+            Åpningstider: 09-14<br />
+            Ansattsøk
+            </p>
+            <p>
+            <img src="/blackjack/img/FB-f-Logo__blue_29.png" width="14"  /> <a href="http://facebook.com/">Facebook</a><br />
+            <img src="/blackjack/img/Twitter_Logo_White_On_Blue.png" width="14" /> <a href="http://twitter.com/">Twitter</a><br />
+            </p>
+        </div>
+        <div class="col-sm-3">
+        	<h5>Om hyttesomething.no</h5>
+            <p>
+            <a href="/blackjack/nettstedkart">Nettstedkart</a><br />
+            <a href="/blackjack/personvern">Personvern og informasjonskapsler</a><br />
+            </p>
+            <p>
+            <span class="text-size-xs">A</span>
+            <span class="text-size-sm">A</span>
+            A Juster tekststørrelse
+            </p>
+            <h5>Language</h5>
+            <p>
+            Bokmål | Nynorsk | English
+            </p>
+        </div>
+    </div>
+</div><!-- .content slutt -->
+</div><!-- .container slutt -->
+<div class="container copyright">BlackJack Webutvikling &copy; 2016</div>
+
+</body>
+<script src="/blackjack/js.js"></script>
+<script type="text/javascript" src="bestilling.js"></script>
+<script type="text/javascript" src="dynamiske_priser.js"></script>
+</html>
